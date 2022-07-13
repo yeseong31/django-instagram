@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="main-body">
+  <div class="left-body">
+    <!-- Feed -->
+    {% if feed_list %}
+      {% for feed in feed_list %}
+      <div class="border feed-box">
+        <div class="feed-name">
+          <div class="profile-box">
+            <img class="profile-img" src="{{ feed.profile_image }}" alt="profile1">
+          </div>
+          <span class="feed-name-txt"> {{ feed.user_id }} </span>
+        </div>
+        <img class="feed-img" src="{{ feed.image }}" alt="image1">
+        <div class="feed-icon">
+          <div>
+            <span class="material-icons-outlined">favorite_border</span>
+            <span class="material-icons-outlined">mode_comment</span>
+            <span class="material-icons-outlined">send</span>
+          </div>
+          <div>
+            <span class="material-icons-outlined">turned_in_not</span>
+          </div>
+        </div>
+        <div class="feed-like">
+          <p class="feed-txt"><b>좋아요 {{ feed.like_count }}개</b></p>
+        </div>
+        <div class="feed-content">
+          <p class="feed-txt"><b> {{ feed.user_id }} </b> {{ feed.content }} </p>
+        </div>
+        <div class="feed-reply">
+          <span class="feed-txt"><b> mychew </b> 테스트 댓글1...</span>
+          <span class="feed-txt"><b> cho </b> 테스트 댓글2...</span>
+        </div>
+      </div>
+      {% endfor %}
+    {% else %}
+      <div class="border feed-box">
+        게시글이 없습니다...
+      </div>
+    {% endif %}
+  </div>
+  <!-- Right Body -->
+  {% include 'instagram/right.html' %}
+</div>
+{% endblock %}
