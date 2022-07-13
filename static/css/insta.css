@@ -85,12 +85,12 @@
     object-fit: cover;
 }
 
-.name-content{
+.name-content {
     display: flex;
     flex-direction: column;
 }
 
-.name-content-txt{
+.name-content-txt {
     font-size: 12px;
     padding: 0 10px;
     font-weight: bold;
@@ -108,7 +108,7 @@
     overflow: hidden;
 }
 
-.link-txt{
+.link-txt {
     font-size: 14px;
     font-weight: bold;
     cursor: pointer;

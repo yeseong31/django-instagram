@@ -3,28 +3,38 @@
     <img style="height: 30px; object-fit: contain" src="https://www.instagram.com/static/images/web/mobile_nav_type_logo-2x.png/1b47f9d0e595.png" alt="instagram-logo">
     <input class="form-control" style="width: 200px" type="search" placeholder="Search" aria-label="Search">
     <!-- Google Material -->
-    <div>
+    <div class="my-material-icons">
       <span class="material-icons">home</span>
       <span class="material-icons">send</span>
-      <span style="cursor: pointer" class="material-icons-outlined" data-bs-toggle="modal" data-bs-target="#staticBackdrop">add_box</span>
+      <span class="material-icons-outlined" style="cursor: pointer"
+            data-bs-toggle="modal" data-bs-target="#staticBackdrop">add_box</span>
       <span class="material-icons-outlined">explore</span>
       <span class="material-icons-outlined">favorite_border</span>
     </div>
   </div>
 </nav>
+
 <!-- Modal -->
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
+     data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
       <div class="my-modal-header">
-        <div class="my-modal-title-side"><</div>
+        <div class="my-modal-title-side">< </div>
         <h5 class="my-modal-title" id="staticBackdropLabel">새 게시물</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
+        <!-- Modal Content 1 -->
         <div class="my-modal-image-upload">
-
+          <span id="image-upload-area-text" style="text-align: center; line-height: 550px">
+              사진을 여기에 끌어다 놓으세요.</span>
         </div>
+        <!-- Modal Content 2 -->
+        <div class="my-modal-image-content">
+          <p>두 번째 모달창 테스트</p>
+        </div>
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -39,6 +49,7 @@
 {% block script %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
+// 이미지 드래그 업로드
 $('.my-modal-image-upload')
     .on("dragover", dragOver)
     .on("dragleave", dragOver)
@@ -47,7 +58,6 @@ $('.my-modal-image-upload')
 function dragOver(e){
     e.stopPropagation();
     e.preventDefault();
-
     if (e.type === "dragover") {
         $(e.target).css({
             "background-color": "black",
@@ -64,14 +74,13 @@ function dragOver(e){
 function uploadFiles(e){
     e.stopPropagation();
     e.preventDefault();
-
     e.dataTransfer = e.originalEvent.dataTransfer;
     const files = e.dataTransfer.files;
-
     if (files.length > 1) {
         alert('하나만 등록할 수 있습니다.');
     }
     else if (files[0].type.match(/image.*/)) {
+        document.getElementById("image-upload-area-text").hidden = true;
         $(e.target).css({
             "background-image": "url(" + window.URL.createObjectURL(files[0]) + ")",
             "outline": "none",
