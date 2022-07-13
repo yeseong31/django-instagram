@@ -6,9 +6,79 @@
     <div>
       <span class="material-icons">home</span>
       <span class="material-icons">send</span>
-      <span class="material-icons-outlined">add_box</span>
+      <span style="cursor: pointer" class="material-icons-outlined" data-bs-toggle="modal" data-bs-target="#staticBackdrop">add_box</span>
       <span class="material-icons-outlined">explore</span>
       <span class="material-icons-outlined">favorite_border</span>
     </div>
   </div>
 </nav>
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="my-modal-header">
+        <div class="my-modal-title-side"><</div>
+        <h5 class="my-modal-title" id="staticBackdropLabel">새 게시물</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="my-modal-image-upload">
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Understood</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JQuery -->
+<!-- https://api.jquery.com/on/ -->
+{% block script %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+$('.my-modal-image-upload')
+    .on("dragover", dragOver)
+    .on("dragleave", dragOver)
+    .on("drop", uploadFiles);
+
+function dragOver(e){
+    e.stopPropagation();
+    e.preventDefault();
+
+    if (e.type === "dragover") {
+        $(e.target).css({
+            "background-color": "black",
+            "outline-offset": "-20px"
+        });
+    } else {
+        $(e.target).css({
+            "background-color": "white",
+            "outline-offset": "-10px"
+        });
+    }
+}
+
+function uploadFiles(e){
+    e.stopPropagation();
+    e.preventDefault();
+
+    e.dataTransfer = e.originalEvent.dataTransfer;
+    const files = e.dataTransfer.files;
+
+    if (files.length > 1) {
+        alert('하나만 등록할 수 있습니다.');
+    }
+    else if (files[0].type.match(/image.*/)) {
+        $(e.target).css({
+            "background-image": "url(" + window.URL.createObjectURL(files[0]) + ")",
+            "outline": "none",
+            "background-size": "100% 100%"});
+    } else {
+        alert('이미지 파일이 아닙니다.');
+    }
+}
+</script>
+{% endblock %}
