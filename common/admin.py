@@ -16,7 +16,7 @@ class UserCreationForm(forms.ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ('email', 'date_of_birth')
+        fields = ('email', 'name', 'nickname')
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -44,7 +44,7 @@ class UserChangeForm(forms.ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ('username', 'name', 'email', 'password', 'date_of_birth', 'is_active', 'is_admin')
+        fields = ('email', 'name', 'nickname', 'password', 'is_active', 'is_admin')
 
 
 class UserAdmin(BaseUserAdmin):
@@ -55,11 +55,11 @@ class UserAdmin(BaseUserAdmin):
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
     # that reference specific fields on auth.User.
-    list_display = ('username', 'name', 'email', 'date_of_birth', 'is_admin')
+    list_display = ('email', 'name', 'nickname', 'is_admin')
     list_filter = ('is_admin',)
     fieldsets = (
-        (None, {'fields': ('username', 'password')}),
-        ('Personal info', {'fields': ('name', 'email',)}),
+        (None, {'fields': ('email', 'password')}),
+        ('Personal info', {'fields': ('name', 'nickname',)}),
         ('Permissions', {'fields': ('is_admin',)}),
     )
     # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
@@ -67,11 +67,11 @@ class UserAdmin(BaseUserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('username', 'name', 'email', 'date_of_birth', 'password1', 'password2'),
+            'fields': ('email', 'name', 'nickname', 'password1', 'password2'),
         }),
     )
-    search_fields = ('username', 'email',)
-    ordering = ('username', 'email',)
+    search_fields = ('nickname', 'name', 'email',)
+    ordering = ('nickname', 'name', 'email',)
     filter_horizontal = ()
 
 
