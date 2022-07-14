@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="signup-body">
+    <div>
+        <div class="mb-3 signup-box">
+            <div class="signup-logo-box">
+                <img src="https://www.instagram.com/static/images/web/mobile_nav_type_logo-2x.png/1b47f9d0e595.png" alt="instagram_logo">
+            </div>
+            <div class="signup-text">친구들의 사진과 동영상을 보려면 가입하세요.</div>
+            <div class="mb-2">
+                <label for="email" class="floating-label"></label>
+                <input type="email" id="email" placeholder="이메일 주소">
+            </div>
+            <div class="mb-2">
+                <label for="name" class="floating-label"></label>
+                <input type="text" id="name" placeholder="성명">
+            </div>
+            <div class="mb-2">
+                <label for="nickname" class="floating-label"></label>
+                <input type="text" id="nickname" placeholder="사용자 이름">
+            </div>
+            <div class="mb-2">
+                <label for="password" class="floating-label"></label>
+                <input type="password" id="password" placeholder="비밀번호">
+            </div>
+            <div class="mb-2">
+                <label for="password2" class="floating-label"></label>
+                <input type="password" id="password2" placeholder="비밀번호 확인">
+            </div>
+            <div class="mb-3">
+                <button id="button-join" type="button" class="btn btn-primary" style="width: 70%"> 가입 </button>
+            </div>
+        </div>
+        <div class="signup-sub-box">
+            <div style="margin-top: 25px">
+                계정이 있으신가요? <a href="#">로그인</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
