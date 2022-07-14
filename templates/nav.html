@@ -17,28 +17,39 @@
 <!-- Modal -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
      data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="my-modal-header">
-        <div class="my-modal-title-side">< </div>
+        <div class="my-modal-title-side"></div>
         <h5 class="my-modal-title" id="staticBackdropLabel">새 게시물</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <!-- Modal Content 1 -->
-        <div class="my-modal-image-upload">
-          <span id="image-upload-area-text" style="text-align: center; line-height: 550px">
-              사진을 여기에 끌어다 놓으세요.</span>
+        <!-- Modal: Image -->
+        <div id="input-image" class="my-modal-image-upload">
+          <span id="image-upload-area-text" style="text-align: center; line-height: 550px">사진을 여기에 끌어다 놓으세요.</span>
         </div>
-        <!-- Modal Content 2 -->
+        <!-- Modal: Content -->
         <div class="my-modal-image-content">
-          <p>두 번째 모달창 테스트</p>
+          <div class="my-modal-content-write">
+            <div class="feed-name">
+              <div class="profile-box">
+                <img id="input-profile-image" class="profile-img"
+                     src="https://miro.medium.com/max/1024/1*jH6U4GIClcs5jbEFKJNh5Q.png" alt="writer_profile_img">
+              </div>
+              <span id="input-user-id" class="feed-name-txt"> YS31 </span>
+            </div>
+            <div style="height: 440px">
+                <label for="input-content"></label>
+                <textarea id="input-content" class="feed-content-textarea form-control col-sm-5"
+                          rows="10" placeholder="설명을 입력해 주세요..."></textarea>
+            </div>
+          </div>
         </div>
-
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Understood</button>
+        <button type="button" id="button-write-feed" class="btn btn-primary">공유하기</button>
       </div>
     </div>
   </div>
@@ -71,11 +82,12 @@ function dragOver(e){
     }
 }
 
+let files;
 function uploadFiles(e){
     e.stopPropagation();
     e.preventDefault();
     e.dataTransfer = e.originalEvent.dataTransfer;
-    const files = e.dataTransfer.files;
+    files = e.dataTransfer.files;
     if (files.length > 1) {
         alert('하나만 등록할 수 있습니다.');
     }
@@ -84,10 +96,62 @@ function uploadFiles(e){
         $(e.target).css({
             "background-image": "url(" + window.URL.createObjectURL(files[0]) + ")",
             "outline": "none",
-            "background-size": "100% 100%"});
+            "background-size": "contain",
+            "background-repeat" : "no-repeat",
+            "background-position" : "center"});
+
     } else {
         alert('이미지 파일이 아닙니다.');
     }
+}
+
+// '공유하기' 버튼 클릭 시 데이터 처리
+$('#button-write-feed').on('click', ()=>{
+    const image = $('#input-image').css("background-image").replace(/^url\(['"](.+)['"]\)/, '$1');
+    const content = $('#input-content').val();
+    const profile_image = $('#input-profile-image').attr('src');
+    const user_id = $('#input-user-id').text().trim();
+    console.log($('#input-image').css("background-image"))
+
+    const file = files[0];
+    let form_data = new FormData();
+
+    form_data.append('file', file);
+    form_data.append('image', image);
+    form_data.append('content', content);
+    form_data.append('profile_image', profile_image);
+    form_data.append('user_id', user_id);
+    console.log(form_data)
+
+    if(image.length <= 0) { alert("이미지가 비어있습니다."); }
+    else if(content.length <= 0) { alert("설명을 입력하세요"); }
+    else if(profile_image.length <= 0) { alert("프로필 이미지가 비어있습니다."); }
+    else if(user_id.length <= 0) { alert("사용자 id가 없습니다."); }
+    else{
+        writeFeed(form_data);
+        console.log(files[0]);
+    }
+});
+
+function writeFeed(fd) {
+    $.ajax({
+        url: "/content/upload",
+        data: fd,
+        method: "POST",
+        processData: false,
+        contentType: false,
+        success: function (data) {
+            console.log("성공");
+        },
+        error: function (request, status, error) {
+            console.log("에러");
+        },
+        complete: function() {
+            console.log("무조건 실행");
+            location.reload();
+            alert("게시글 등록 완료!");
+        }
+    })
 }
 </script>
 {% endblock %}

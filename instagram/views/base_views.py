@@ -8,5 +8,5 @@ from instagram.models import Feed
 
 class Main(APIView):
     def get(self, request):
-        feed_list = Feed.objects.all()
+        feed_list = Feed.objects.all().order_by('-id')
         return render(request, 'instagram/feed.html', {'feed_list': feed_list})
