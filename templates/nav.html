@@ -111,7 +111,11 @@ $('#button-write-feed').on('click', ()=>{
     const content = $('#input-content').val();
     const profile_image = $('#input-profile-image').attr('src');
     const user_id = $('#input-user-id').text().trim();
-    console.log($('#input-image').css("background-image"))
+
+    if (!files) {
+        alert("사진이 없습니다.");
+        return;
+    }
 
     const file = files[0];
     let form_data = new FormData();
@@ -121,16 +125,12 @@ $('#button-write-feed').on('click', ()=>{
     form_data.append('content', content);
     form_data.append('profile_image', profile_image);
     form_data.append('user_id', user_id);
-    console.log(form_data)
 
-    if(image.length <= 0) { alert("이미지가 비어있습니다."); }
-    else if(content.length <= 0) { alert("설명을 입력하세요"); }
-    else if(profile_image.length <= 0) { alert("프로필 이미지가 비어있습니다."); }
-    else if(user_id.length <= 0) { alert("사용자 id가 없습니다."); }
-    else{
-        writeFeed(form_data);
-        console.log(files[0]);
-    }
+    if (image.length <= 0) { alert("이미지가 비어있습니다."); }
+    else if (content.length <= 0) { alert("설명을 입력하세요"); }
+    else if (profile_image.length <= 0) { alert("프로필 이미지가 비어있습니다."); }
+    else if (user_id.length <= 0) { alert("사용자 id가 없습니다."); }
+    else { writeFeed(form_data); }
 });
 
 function writeFeed(fd) {
