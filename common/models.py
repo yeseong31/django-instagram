@@ -76,4 +76,4 @@ class CustomUser(AbstractBaseUser):
         return self.is_admin
 
     class Meta:
-        db_table = 'user'
+        db_table = 'users'

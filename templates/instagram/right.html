@@ -1,13 +1,14 @@
+{% load static %}
 <!-- Right Body -->
 <div class="right-body">
   <div class="feed-name" style="justify-content: space-between">
     <div style="display: flex; align-items: center;">
       <div class="big-profile-box">
-        <img class="profile-img" src="https://miro.medium.com/max/1024/1*jH6U4GIClcs5jbEFKJNh5Q.png" alt="profile1">
+        <img class="profile-img" src="{% get_media_prefix %}{{ user.thumbnail }}" alt="profile1">
       </div>
       <div class="name-content">
-        <span class="feed-name-txt"> YS31 </span>
-        <span class="name-content-txt"> Yeseong31 </span>
+        <span class="feed-name-txt"> {{ user.nickname }} </span>
+        <span class="name-content-txt"> {{ user.name }} </span>
       </div>
     </div>
     <a class="link-txt" >전환</a>
