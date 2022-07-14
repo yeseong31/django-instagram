@@ -7,18 +7,18 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    background-color: #fafafa;
 }
 
 .signup-box {
-    -webkit-box-align: center;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
     align-items: center;
     background-color: #fff;
     border: 1px solid #dbdbdb;
     border-radius: 1px;
     margin: 0 0 10px;
     padding: 10px 0;
+    width: 350px;
+    height: 470px;
 }
 
 .signup-logo-box {
@@ -44,7 +44,6 @@
 
 .signup-sub-box {
     background-color: white;
-    width: 350px;
     height: 70px;
     border: 1px solid rgba(0, 0, 0, 0.18);
 }
@@ -56,28 +55,23 @@
     cursor: pointer;
 }
 
+.signup-button {
+    width: 258px;
+    margin-top: 8px;
+    margin-left: 44px;
+    margin-right: 40px;
+}
+
 .my-form-input {
-    -webkit-box-align: center;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
-    align-items: center;
-    -webkit-appearance: none;
-    background: #f9f9f9;
+    width: 258px;
+    height: 36px;
+    font-size: 15px;
     border: 1px solid #dbdbdb;
     border-radius: 3px;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    color: #262626;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-    -webkit-flex-direction: row;
-    -ms-flex-direction: row;
-    flex-direction: row;
-    font-size: 14px;
-    position: relative;
-    width: 70%;
+    padding: 9px 0 7px 8px;
+    background-color: #FAFAFA;
+}
+
+.my-form-input:focus {
+    outline: 1px solid rgb(38, 38, 38);
 }
