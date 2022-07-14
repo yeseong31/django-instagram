@@ -54,7 +54,7 @@ class CustomUser(AbstractBaseUser):
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['name', 'nickname', 'date_of_birth']
+    REQUIRED_FIELDS = ['name', 'nickname']
 
     def __str__(self):
         return self.nickname
