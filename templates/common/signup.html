@@ -26,12 +26,14 @@
                         value="{{ form.nickname.value|default_if_none:'' }}">
             </div>
             <div class="mb-2">
-                <label for="password" class="floating-label"></label>
-                <input class="my-form-input" type="password" id="password" name="password" placeholder="비밀번호">
+                <label for="password1" class="floating-label"></label>
+                <input class="my-form-input" type="password" id="password1" name="password1" placeholder="비밀번호"
+                        value="{{ form.password1.value|default_if_none:'' }}">
             </div>
             <div class="mb-2">
                 <label for="password2" class="floating-label"></label>
-                <input class="my-form-input" type="password" id="password2" name="password2" placeholder="비밀번호 확인">
+                <input class="my-form-input" type="password" id="password2" name="password2" placeholder="비밀번호 확인"
+                        value="{{ form.password2.value|default_if_none:'' }}">
             </div>
             <div class="mb-2">
                 <button id="button-join" type="submit" class="btn btn-primary signup-button"> 가입 </button>
@@ -43,9 +45,7 @@
             </div>
         </div>
     </form>
-    <div>
-        {% include "form_errors.html" %}
-    </div>
+    {% include "form_errors.html" %}
 </div>
 
 {% endblock %}

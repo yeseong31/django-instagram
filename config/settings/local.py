@@ -32,3 +32,12 @@ DATABASES = {
 
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
+
+
+# Email Authentication
+EMAIL_HOST_USER = env.get_value('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env.get_value('EMAIL_HOST_PASSWORD')
+
+
+# Generate JWT Token
+JWT_SECRET_KEY = env.get_value('JWT_SECRET_KEY')

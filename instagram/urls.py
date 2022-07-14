@@ -2,13 +2,13 @@ from django.conf.urls.static import static
 from django.urls import path
 
 from config.settings import base
-from instagram.views.base_views import Main
+from instagram.views.base_views import home
 from instagram.views.upload_views import UploadFeed
 
 app_name = 'instagram'
 
 urlpatterns = [
-    path('', Main.as_view()),
+    path('', home, name='home'),
     path('content/upload', UploadFeed.as_view())
 ]
 

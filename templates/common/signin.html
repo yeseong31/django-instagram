@@ -3,29 +3,33 @@
 {% block content %}
 
 <div class="signup-body">
-    <div>
-        <div class="mb-3 signup-box">
-            <div class="signup-logo-box">
-                <img src="https://www.instagram.com/static/images/web/mobile_nav_type_logo-2x.png/1b47f9d0e595.png" alt="instagram_logo">
+    <form method="post">
+        {% csrf_token %}
+        <div>
+            <div class="mb-3 signup-box">
+                <div class="signup-logo-box">
+                    <img src="https://www.instagram.com/static/images/web/mobile_nav_type_logo-2x.png/1b47f9d0e595.png" alt="instagram_logo">
+                </div>
+                <div class="mb-2">
+                    <label for="email" class="floating-label"></label>
+                    <input class="my-form-input" type="email" id="email" name="email" placeholder="이메일 주소">
+                </div>
+                <div class="mb-2">
+                    <label for="password" class="floating-label"></label>
+                    <input class="my-form-input" type="password" id="password" name="password" placeholder="비밀번호">
+                </div>
+                <div>
+                    <button id="button-join" type="submit" class="btn btn-primary signup-button"> 로그인 </button>
+                </div>
             </div>
-            <div class="mb-2">
-                <label for="email" class="floating-label"></label>
-                <input class="my-form-input" type="email" id="email" placeholder="이메일 주소">
-            </div>
-            <div class="mb-2">
-                <label for="password" class="floating-label"></label>
-                <input class="my-form-input" type="password" id="password" placeholder="비밀번호">
-            </div>
-            <div>
-                <button id="button-join" type="button" class="btn btn-primary signup-button"> 로그인 </button>
+            <div class="signup-sub-box">
+                <div style="margin-top: 25px">
+                    계정이 없으신가요? <a href="{% url 'common:signup' %}">가입하기</a>
+                </div>
             </div>
         </div>
-        <div class="signup-sub-box">
-            <div style="margin-top: 25px">
-                계정이 없으신가요? <a href="{% url 'common:signup' %}">가입하기</a>
-            </div>
-        </div>
-    </div>
+    </form>
+    {% include "form_errors.html" %}
 </div>
 
 {% endblock %}
