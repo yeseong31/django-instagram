@@ -3,7 +3,8 @@
 {% block content %}
 
 <div class="signup-body">
-    <div>
+    <form method="post">
+        {% csrf_token %}
         <div class="mb-3 signup-box">
             <div class="signup-logo-box">
                 <img src="https://www.instagram.com/static/images/web/mobile_nav_type_logo-2x.png/1b47f9d0e595.png" alt="instagram_logo">
@@ -11,33 +12,39 @@
             <div class="signup-text">친구들의 사진과 동영상을 보려면 가입하세요.</div>
             <div class="mb-2">
                 <label for="email" class="floating-label"></label>
-                <input class="my-form-input" type="email" id="email" placeholder="이메일 주소">
+                <input class="my-form-input" type="email" id="email" name="email" placeholder="이메일 주소"
+                        value="{{ form.email.value|default_if_none:'' }}">
             </div>
             <div class="mb-2">
                 <label for="name" class="floating-label"></label>
-                <input class="my-form-input" type="text" id="name" placeholder="성명">
+                <input class="my-form-input" type="text" id="name" name="name" placeholder="성명"
+                        value="{{ form.name.value|default_if_none:'' }}">
             </div>
             <div class="mb-2">
                 <label for="nickname" class="floating-label"></label>
-                <input class="my-form-input" type="text" id="nickname" placeholder="사용자 이름">
+                <input class="my-form-input" type="text" id="nickname" name="nickname" placeholder="사용자 이름"
+                        value="{{ form.nickname.value|default_if_none:'' }}">
             </div>
             <div class="mb-2">
                 <label for="password" class="floating-label"></label>
-                <input class="my-form-input" type="password" id="password" placeholder="비밀번호">
+                <input class="my-form-input" type="password" id="password" name="password" placeholder="비밀번호">
             </div>
             <div class="mb-2">
                 <label for="password2" class="floating-label"></label>
-                <input class="my-form-input" type="password" id="password2" placeholder="비밀번호 확인">
+                <input class="my-form-input" type="password" id="password2" name="password2" placeholder="비밀번호 확인">
             </div>
             <div class="mb-2">
-                <button id="button-join" type="button" class="btn btn-primary signup-button"> 가입 </button>
+                <button id="button-join" type="submit" class="btn btn-primary signup-button"> 가입 </button>
             </div>
-        </div>
+            </div>
         <div class="signup-sub-box">
             <div style="margin-top: 25px">
                 계정이 있으신가요? <a href="{% url 'common:signin' %}">로그인</a>
             </div>
         </div>
+    </form>
+    <div>
+        {% include "form_errors.html" %}
     </div>
 </div>
 

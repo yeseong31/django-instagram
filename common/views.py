@@ -1,18 +1,17 @@
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
+from django.http import JsonResponse
 from django.shortcuts import render
-from rest_framework.views import APIView
+from rest_framework import status
+from rest_framework.generics import get_object_or_404
+from rest_framework.response import Response
 
 from common.models import CustomUser
 
 
-class SignupView(APIView):
-    """회원가입"""
-
-    def get(self, request):
-        return render(request, 'common/signup.html')
+def signup(request):
+    pass
 
 
-class SigninView(APIView):
-    """로그인"""
-
-    def get(self, request):
-        return render(request, 'common/signin.html')
+def signin(request):
+    return render(request, 'common/signin.html')
