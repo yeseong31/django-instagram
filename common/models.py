@@ -48,7 +48,8 @@ class CustomUser(AbstractBaseUser):
     email = models.EmailField(verbose_name='email address', max_length=255, unique=True)
     name = models.CharField(verbose_name='name', max_length=40, null=False, blank=False)
     nickname = models.CharField(verbose_name='nickname', max_length=30, null=False, blank=False)
-    thumbnail = models.CharField(max_length=256, default='default.jpg', blank=True, null=True)
+    thumbnail = models.ImageField(verbose_name='profile image', upload_to='profile/%Y/%m/%d/',
+                                  default='default.jpg', blank=True, null=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 
