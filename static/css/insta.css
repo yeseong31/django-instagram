@@ -150,13 +150,10 @@
     transform: translate(-82%, 0%);
 }
 
-.my-material-icons a {
-    text-decoration: none;
-    color: black;
-}
-
 .my-icon-cursor {
     cursor: pointer;
+    text-decoration: none;
+    color: black;
 }
 
 .mypage-body {
@@ -234,4 +231,11 @@
     color: cornflowerblue;
     font-weight: bold;
     margin-left: 10px;
+}
+
+.my-icon-mini {
+    float: right;
+    width: 12px;
+    height: 12px;
+    font-size: 12px;
 }

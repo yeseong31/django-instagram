@@ -1,11 +1,11 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseNotAllowed
-from django.shortcuts import get_object_or_404, redirect, resolve_url, render
-from django.utils import timezone
+from django.shortcuts import get_object_or_404, redirect, resolve_url
 from rest_framework.response import Response
 from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_200_OK
 
-from instagram.forms import FeedForm, CommentForm
+from instagram.forms import FeedForm
 from instagram.models import Feed
 
 
@@ -27,19 +27,12 @@ def feed_create(request):
 
 
 @login_required(login_url='common:signin')
-def comment_create(request, feed_id):
-    """답글 등록"""
+def feed_vote(request, feed_pk):
+    """게시글 추천"""
 
-    feed = get_object_or_404(Feed, pk=feed_id)
-    if request.method == 'POST':
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.author = request.user
-            comment.feed = feed
-            comment.create_date = timezone.now()
-            comment.save()
-            return redirect(f'{resolve_url("instagram:home")}#comment_{comment.pk}')
-        return render(request, 'instagram/feed.html')
-    else:
-        return HttpResponseNotAllowed('Allow POST requests only.')
+    feed = get_object_or_404(Feed, pk=feed_pk)
+    if request.user == feed.author:
+        messages.error(request, '본인이 작성한 글은 추천할 수 없습니다.')
+        return
+    feed.voter.add(request.user)
+    return redirect(f'{resolve_url("instagram:home")}#feed_{feed_pk}')
