@@ -1,31 +1,18 @@
-import os
-from uuid import uuid4
-
+from django.contrib.auth.decorators import login_required
 from rest_framework.response import Response
-from rest_framework.views import APIView
+from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_200_OK
 
-from config.settings.base import MEDIA_ROOT
-from instagram.models import Feed
+from instagram.forms import UploadFeedForm
 
 
-class UploadFeed(APIView):
-    def post(self, request):
-        file = request.FILES['file']
-        uuid_name = uuid4().hex
-        save_path = os.path.join(MEDIA_ROOT, uuid_name)
-        with open(save_path, 'wb+') as destination:
-            for chunk in file.chunks():
-                destination.write(chunk)
-        content = request.data.get('content')
-        image = uuid_name
-        profile_image = request.data.get('profile_image')
-        user_id = request.data.get('user_id')
-
-        Feed.objects.create(
-            content=content,
-            image=image,
-            profile_image=profile_image,
-            user_id=user_id,
-            like_count=0
-        )
-        return Response(status=200)
+@login_required(login_url='common:signin')
+def upload_feed(request):
+    if request.method == 'POST':
+        form = UploadFeedForm(request.POST)
+        if form.is_valid():
+            feed = form.save(commit=False)
+            feed.image = request.FILES['file']
+            feed.author = request.user
+            feed.save()
+            return Response(status=HTTP_200_OK)
+        return Response(status=HTTP_400_BAD_REQUEST)

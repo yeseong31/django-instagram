@@ -10,9 +10,9 @@
       <div class="border feed-box">
         <div class="feed-name">
           <div class="profile-box">
-            <img class="profile-img" src="{{ feed.profile_image }}" alt="profile1">
+            <img class="profile-img" src="{% get_media_prefix %}{{ feed.author.thumbnail }}" alt="profile1">
           </div>
-          <span class="feed-name-txt"> {{ feed.user_id }} </span>
+          <span class="feed-name-txt"> {{ feed.author }} </span>
         </div>
         <img class="feed-img"  src="{% get_media_prefix %}{{ feed.image }}" alt="image1">
         <div class="feed-icon">
@@ -26,10 +26,12 @@
           </div>
         </div>
         <div class="feed-like">
-          <p class="feed-txt"><b>좋아요 {{ feed.like_count }}개</b></p>
+          <p class="feed-txt">
+              <b>좋아요 {% if feed.voter_set.count > 0 %}{{ feed.voter_set.count }}{% else %}0{% endif %}개</b>
+          </p>
         </div>
         <div class="feed-content">
-          <p class="feed-txt"><b> {{ feed.user_id }} </b> {{ feed.content }} </p>
+          <p class="feed-txt"><b> {{ feed.author }} </b> {{ feed.content }} </p>
         </div>
         <div class="feed-reply">
           <span class="feed-txt"><b> mychew </b> 테스트 댓글1...</span>

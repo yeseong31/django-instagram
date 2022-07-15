@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
+from rest_framework.authtoken.models import Token
 
 
 class CustomUserManager(BaseUserManager):
@@ -22,7 +23,6 @@ class CustomUserManager(BaseUserManager):
             name=name,
             nickname=nickname,
         )
-
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -40,6 +40,7 @@ class CustomUserManager(BaseUserManager):
         )
         user.is_admin = True
         user.save(using=self._db)
+        Token.objects.create(user=user)
         return user
 
 
@@ -47,7 +48,7 @@ class CustomUser(AbstractBaseUser):
     email = models.EmailField(verbose_name='email address', max_length=255, unique=True)
     name = models.CharField(verbose_name='name', max_length=40, null=False, blank=False)
     nickname = models.CharField(verbose_name='nickname', max_length=30, null=False, blank=False)
-    thumbnail = models.CharField(max_length=256, default='default_profile.jpg', blank=True, null=True)
+    thumbnail = models.CharField(max_length=256, default='default.jpg', blank=True, null=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 

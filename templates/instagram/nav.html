@@ -1,3 +1,4 @@
+{% load static %}
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container">
     <img style="height: 30px; object-fit: contain" src="https://www.instagram.com/static/images/web/mobile_nav_type_logo-2x.png/1b47f9d0e595.png" alt="instagram-logo">
@@ -35,9 +36,9 @@
             <div class="feed-name">
               <div class="profile-box">
                 <img id="input-profile-image" class="profile-img"
-                     src="https://miro.medium.com/max/1024/1*jH6U4GIClcs5jbEFKJNh5Q.png" alt="writer_profile_img">
+                     src="{% get_media_prefix %}{{ user.thumbnail }}" alt="writer_profile_img">
               </div>
-              <span id="input-user-id" class="feed-name-txt"> YS31 </span>
+              <span id="input-user-id" class="feed-name-txt"> {{ user.nickname }} </span>
             </div>
             <div style="height: 440px">
                 <label for="input-content"></label>
@@ -109,8 +110,7 @@ function uploadFiles(e){
 $('#button-write-feed').on('click', ()=>{
     const image = $('#input-image').css("background-image").replace(/^url\(['"](.+)['"]\)/, '$1');
     const content = $('#input-content').val();
-    const profile_image = $('#input-profile-image').attr('src');
-    const user_id = $('#input-user-id').text().trim();
+    const nickname = $('#input-user-id').text().trim();
 
     if (!files) {
         alert("사진이 없습니다.");
@@ -119,23 +119,21 @@ $('#button-write-feed').on('click', ()=>{
 
     const file = files[0];
     let form_data = new FormData();
-
     form_data.append('file', file);
-    form_data.append('image', image);
     form_data.append('content', content);
-    form_data.append('profile_image', profile_image);
-    form_data.append('user_id', user_id);
 
-    if (image.length <= 0) { alert("이미지가 비어있습니다."); }
-    else if (content.length <= 0) { alert("설명을 입력하세요"); }
-    else if (profile_image.length <= 0) { alert("프로필 이미지가 비어있습니다."); }
-    else if (user_id.length <= 0) { alert("사용자 id가 없습니다."); }
-    else { writeFeed(form_data); }
+    if (image.length <= 0) alert("이미지가 비어있습니다.");
+    else if (content.length <= 0) alert("설명을 입력하세요");
+    else if (nickname.length <= 0) alert("사용자 ID가 없습니다.");
+    else writeFeed(form_data);
 });
 
+$.ajaxSetup({
+    headers: { "X-CSRFToken": '{{csrf_token}}' }
+});
 function writeFeed(fd) {
     $.ajax({
-        url: "/content/upload",
+        url: "/upload/feed",
         data: fd,
         method: "POST",
         processData: false,
