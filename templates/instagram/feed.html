@@ -4,9 +4,10 @@
 
 <div class="main-body">
   <div class="left-body">
-    <!-- Feed -->
+    <!-- 전체 피드 -->
     {% if feed_list %}
       {% for feed in feed_list %}
+      <a id="feed_{{ feed.pk }}"></a>
       <div class="border feed-box">
         <div class="feed-name">
           <div class="profile-box">
@@ -15,6 +16,7 @@
           <span class="feed-name-txt"> {{ feed.author }} </span>
         </div>
         <img class="feed-img"  src="{% get_media_prefix %}{{ feed.image }}" alt="image1">
+        <!-- icons -->
         <div class="feed-icon">
           <div>
             <span class="material-icons-outlined">favorite_border</span>
@@ -30,13 +32,26 @@
               <b>좋아요 {% if feed.voter_set.count > 0 %}{{ feed.voter_set.count }}{% else %}0{% endif %}개</b>
           </p>
         </div>
+        <a id="comment_{{ comment.pk }}"></a>
         <div class="feed-content">
           <p class="feed-txt"><b> {{ feed.author }} </b> {{ feed.content }} </p>
         </div>
         <div class="feed-reply">
-          <span class="feed-txt"><b> mychew </b> 테스트 댓글1...</span>
-          <span class="feed-txt"><b> cho </b> 테스트 댓글2...</span>
+          {% for comment in feed.comment_set.all %}
+            <span class="feed-txt"><b> {{ comment.author.nickname }} </b> {{ comment.content }}</span>
+          {% endfor %}
         </div>
+        <!-- 답글 -->
+        <form id="frmcm" action="{% url 'instagram:comment_create' feed.pk %}" method="post">
+          {% csrf_token %}
+          <div class="my-comment-box">
+            <label for="content"></label>
+            <input id="content" name="content" type="text"
+                class="form-control my-comment-box-content" placeholder="댓글 달기..."
+                {% if not user.is_authenticated %}disabled{% endif %}>
+            <input type="submit" value="게시" class="register btn btn-light my-comment-upload-btn">
+          </div>
+        </form>
       </div>
       {% endfor %}
     {% else %}
