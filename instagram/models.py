@@ -16,4 +16,4 @@ class Feed(models.Model):
         return self.author
 
     class Meta:
-        db_table = 'feeds'
+        db_table = 'feed'
