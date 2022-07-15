@@ -4,6 +4,7 @@ from django.core.mail import EmailMessage
 from django.shortcuts import render, redirect
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from rest_framework.authtoken.models import Token
 from rest_framework.generics import get_object_or_404
 from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_200_OK, HTTP_401_UNAUTHORIZED
 from rest_framework.views import APIView
@@ -56,7 +57,8 @@ class SigninView(APIView):
             user = authenticate(email=email, password=password)
             if user:
                 login(request, user)
-                return redirect('/')
+                token = Token.objects.get(user=request.user)
+                return redirect('/', {'token': token})
             context = {'message': '로그인 실패. 다시 시도 바랍니다.', 'url': '/accounts/signin/'}
             return render(request, 'message.html', context, status=HTTP_400_BAD_REQUEST)
 
@@ -82,6 +84,7 @@ class UserActivateView(APIView):
             if account_activation_token.check_token(user, token):
                 user.is_active = True
                 user.save()
+                Token.objects.create(user=user)  # 해당 계정에 대한 Token 발행
                 context = {'message': '인증 완료! 로그인을 진행해 주세요.', 'url': '/accounts/signin/'}
                 return render(request, 'message.html', context, status=HTTP_200_OK)
             else:

@@ -1,7 +1,6 @@
 from django.urls import path
 
 from common.views import SignupView, UserActivateView, SigninView
-from django.contrib.auth import views as auth_views
 
 app_name = 'common'
 
