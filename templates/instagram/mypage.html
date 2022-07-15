@@ -1,0 +1,29 @@
+{% extends 'instagram/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="mypage-body">
+    <div class="mypage-box">
+        <div class="mypage-header">
+            <img class="mypage-profile-image" src="{% get_media_prefix %}{{ user.thumbnail }}" alt="my_profile_image">
+        </div>
+    </div>
+    <div class="mypage-header-info">
+        <div class="mypage-header-info-main">
+            <div style="font-size: 28px; margin-right: 40px">{{ user.nickname }}</div>
+            <button type="button" class="btn btn-outline-dark" id="button_profile_upload">프로필 편집</button>
+            <input type="file" id="input_fileupload" onchange="profile_upload();" style="display: none" />
+            <span class="material-icons-outlined" style="margin-right: 40px">settings</span>
+        </div>
+        <div class="mypage-header-info-sub">
+            <div class="mypage-header-info-sub-1">게시물 <b>0</b></div>
+            <div class="mypage-header-info-sub-1">팔로워 <b>17</b></div>
+            <div>팔로우 <b>45</b></div>
+        </div>
+        <div>
+            <b>{{ user.name }}</b>
+        </div>
+    </div>
+
+
+{% endblock %}

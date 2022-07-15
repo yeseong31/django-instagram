@@ -150,3 +150,62 @@
 .my-dropdown-menu {
     transform: translate(-82%, 0%);
 }
+
+.my-material-icons a {
+    text-decoration: none;
+    color: black;
+}
+
+.my-icon-cursor {
+    cursor: pointer;
+}
+
+.mypage-body {
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    justify-content: center;
+    padding-top: 60px;
+    background-color:#FAFAFA;
+}
+
+.mypage-box {
+    padding: 20px 60px;
+}
+
+.mypage-header {
+    width: 175px;
+    height: 175px;
+} img {
+    border-radius: 100%;
+    width: 150px;
+    height: 150px;
+}
+
+.mypage-header-info {
+    text-align: left;
+    margin-left: 100px;
+}
+
+.mypage-header-info-main {
+    display: flex;
+    flex-direction: row;
+    margin: 20px 0;
+}
+
+.mypage-header-info-sub {
+    margin-bottom: 20px;
+}
+
+.mypage-header-info-sub-1 {
+    float: left;
+    margin-right: 35px;
+}
+
+#button_profile_upload {
+    margin-right: 40px;
+    font-size: 15px;
+    font-weight: bold;
+    width: 100px;
+    height: 40px;
+}
