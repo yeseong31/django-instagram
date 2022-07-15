@@ -147,7 +147,7 @@ $.ajaxSetup({
 });
 function writeFeed(fd) {
     $.ajax({
-        url: "/upload/feed",
+        url: "/feed/create",
         data: fd,
         method: "POST",
         processData: false,
