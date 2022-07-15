@@ -136,6 +136,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'common.CustomUser'
 
 
+# 로그인 성공 시 이동하는 URL
+LOGIN_REDIRECT_URL = '/'
+# 로그아웃 시 이동하는 URL
+LOGOUT_REDIRECT_URL = '/'
+
+
 # Email Authentication
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'

@@ -11,6 +11,18 @@
             data-bs-toggle="modal" data-bs-target="#staticBackdrop">add_box</span>
       <span class="material-icons-outlined">explore</span>
       <span class="material-icons-outlined">favorite_border</span>
+      <div class="dropdown my-profile-dropdown">
+        <span class="my-profile-image-box">
+          <a href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="{% get_media_prefix %}{{ user.thumbnail }}" alt="user_profile_image">
+          </a>
+          <ul class="dropdown-menu my-dropdown-menu" aria-labelledby="dropdownMenuLink" style="float: right">
+            <li><a class="dropdown-item" href="#">프로필</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="{% url 'common:logout' %}">로그아웃</a></li>
+          </ul>
+        </span>
+      </div>
     </div>
   </div>
 </nav>

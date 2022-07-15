@@ -14,11 +14,12 @@
 }
 
 .right-body {
+    margin-top: 10px;
     padding-top: 20px;
     width: 300px;
     height: 1000px;
     left: 72%;
-    position: fixed
+    position: fixed;
 }
 
 .feed-box {
@@ -26,6 +27,7 @@
     width: 480px;
     margin: 10px;
     min-height: auto;
+    border-radius: 8px;
     padding-bottom: 10px;
 }
 
@@ -131,4 +133,20 @@
     color: lightgray;
     display: flex;
     flex-direction: column;
+}
+
+.my-profile-dropdown {
+    padding-left: 5px;
+    float: right;
+}
+
+.my-profile-image-box img {
+    margin-bottom: 15px;
+    width: 24px;
+    height: 24px;
+    border-radius: 100%;
+}
+
+.my-dropdown-menu {
+    transform: translate(-82%, 0%);
 }
