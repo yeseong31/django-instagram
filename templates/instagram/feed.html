@@ -21,11 +21,11 @@
             <!-- '추천' 버튼 -->
             <a href="javascript:void(0)" data-uri="{% url 'instagram:feed_vote' feed.pk %}">
                 <span class="recommend material-icons-outlined my-icon-cursor">favorite_border</span></a>
-            <span class="material-icons-outlined">mode_comment</span>
-            <span class="material-icons-outlined">send</span>
+            <span class="material-icons-outlined my-icon-cursor">mode_comment</span>
+            <span class="material-icons-outlined my-icon-cursor">send</span>
           </div>
           <div>
-            <span class="material-icons-outlined">turned_in_not</span>
+            <span class="material-icons-outlined my-icon-cursor">turned_in_not</span>
           </div>
         </div>
         <div class="feed-like">
@@ -40,7 +40,7 @@
         <div class="feed-reply">
           {% for comment in feed.comment_set.all %}
             <span class="feed-txt"><b> {{ comment.author.nickname }} </b> {{ comment.content }}
-              <span class="material-icons-outlined my-icon-mini">favorite_border</span>
+              <span class="material-icons-outlined my-icon-mini my-icon-cursor">favorite_border</span>
             </span>
           {% endfor %}
         </div>
