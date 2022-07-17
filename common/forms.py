@@ -61,3 +61,12 @@ class UserSigninForm(forms.ModelForm):
             password = self.cleaned_data['password']
             if not authenticate(email=email, password=password):
                 raise ValidationError("Invalid Sign In")
+
+
+class ProfileImageForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['thumbnail']
+        labels = {
+            'thumbnail': '프로필 이미지'
+        }

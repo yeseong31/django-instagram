@@ -5,15 +5,16 @@
 <div class="mypage-body">
     <div class="mypage-box">
         <div class="mypage-header">
-            <img class="mypage-profile-image" src="{% get_media_prefix %}{{ user.thumbnail }}" alt="my_profile_image">
+            <img class="mypage-profile-image my-icon-cursor" id="img-profile-upload"
+                 src="{% get_media_prefix %}{{ user.thumbnail }}" alt="my_profile_image">
         </div>
     </div>
     <div class="mypage-header-info">
         <div class="mypage-header-info-main">
             <div style="font-size: 28px; margin-right: 40px">{{ user.nickname }}</div>
-            <button type="button" class="btn btn-outline-dark" id="button_profile_upload">프로필 편집</button>
-            <input type="file" id="input_fileupload" onchange="profile_upload();" style="display: none" />
-            <span class="material-icons-outlined" style="margin-right: 40px">settings</span>
+            <button type="button" class="btn btn-outline-dark" id="button-profile-upload">프로필 편집</button>
+            <input type="file" id="input-fileupload" onchange="profile_upload();" style="display: none" />
+            <span class="material-icons-outlined my-icon-cursor">settings</span>
         </div>
         <div class="mypage-header-info-sub">
             <div class="mypage-header-info-sub-1">게시물 <b>0</b></div>
@@ -24,4 +25,38 @@
     </div>
 </div>
 
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+$('#img-profile-upload').click(function (){
+    $('#input-fileupload').click();
+});
+
+function profile_upload(){
+    let file = $('#input-fileupload')[0].files[0];
+    let fd = new FormData();
+
+    fd.append('file', file);
+
+    $.ajax({
+        url: "/mypage/profile/upload",
+        data: fd,
+        method: "POST",
+        processData: false,
+        contentType: false,
+        success: function (data) {
+            console.log("성공");
+        },
+        error: function (request, status, error) {
+            console.log("에러");
+        },
+        complete: function () {
+            console.log("완료");
+            location.replace("/mypage");
+        }
+    });
+
+}
+</script>
 {% endblock %}
