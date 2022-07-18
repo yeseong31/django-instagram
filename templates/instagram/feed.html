@@ -19,8 +19,9 @@
         <div class="feed-icon">
           <div>
             <!-- '추천' 버튼 -->
-            <a href="javascript:void(0)" data-uri="{% url 'instagram:feed_vote' feed.pk %}">
-                <span class="recommend material-icons-outlined my-icon-cursor">favorite_border</span></a>
+            <a href="javascript:void(0)" data-uri="{% url 'instagram:feed_vote' feed.pk %}" class="recommend">
+              <span class="material-icons-outlined my-icon-cursor"
+                style="color:{% if user in feed.voter.all %} red {% else %} black {% endif %}">favorite_border</span></a>
             <span class="material-icons-outlined my-icon-cursor">mode_comment</span>
             <span class="material-icons-outlined my-icon-cursor">send</span>
           </div>
@@ -33,14 +34,16 @@
               <b>좋아요 {% if feed.voter_set.count > 0 %}{{ feed.voter_set.count }}{% else %}0{% endif %}개</b>
           </p>
         </div>
-        <a id="comment_{{ comment.pk }}"></a>
         <div class="feed-content">
           <p class="feed-txt"><b> {{ feed.author }} </b> {{ feed.content }}</p>
         </div>
         <div class="feed-reply">
           {% for comment in feed.comment_set.all %}
+            <a id="comment_{{ comment.pk }}"></a>
             <span class="feed-txt"><b> {{ comment.author.nickname }} </b> {{ comment.content }}
-              <span class="material-icons-outlined my-icon-mini my-icon-cursor">favorite_border</span>
+              <a href="javascript:void(0)" data-uri="{% url 'instagram:comment_vote' comment.pk %}" class="recommend">
+                <span class="material-icons-outlined my-icon-mini my-icon-cursor"
+                  style="color:{% if user in comment.voter.all %} red {% else %} black {% endif %}">favorite_border</span></a>
             </span>
           {% endfor %}
         </div>
@@ -74,20 +77,8 @@
 const recommend_elements = document.getElementsByClassName("recommend");
 Array.from(recommend_elements).forEach(function(element) {
     element.addEventListener('click', function() {
-        if(confirm("해당 게시글을 추천하시겠습니까?")) {
-            location.href = this.dataset.uri;
-        }
+        location.href = this.dataset.uri;
     });
 });
-/*
-$(function () {
-    $(".my-comment-box-content").on('input', function() {
-        if ($(".my-comment-box-content").val() === '')
-            $(".my-comment-upload-btn").attr("disabled", true);
-        else
-            $(".my-comment-upload-btn").attr("disabled", false);
-    });
-})
-*/
 </script>
 {% endblock %}

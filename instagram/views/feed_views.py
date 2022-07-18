@@ -1,7 +1,6 @@
-from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseNotAllowed
-from django.shortcuts import get_object_or_404, redirect, resolve_url
+from django.shortcuts import get_object_or_404, redirect, resolve_url, render
 from rest_framework.response import Response
 from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_200_OK
 
@@ -32,7 +31,11 @@ def feed_vote(request, feed_pk):
 
     feed = get_object_or_404(Feed, pk=feed_pk)
     if request.user == feed.author:
-        messages.error(request, '본인이 작성한 글은 추천할 수 없습니다.')
-        return
-    feed.voter.add(request.user)
+        context = {'message': '본인의 게시글은 추천할 수 없습니다.',
+                   'url': f'{resolve_url("instagram:home")}#feed_{feed_pk}'}
+        return render(request, 'message.html', context, status=HTTP_200_OK)
+    if request.user in feed.voter.all():
+        feed.voter.remove(request.user)
+    else:
+        feed.voter.add(request.user)
     return redirect(f'{resolve_url("instagram:home")}#feed_{feed_pk}')
