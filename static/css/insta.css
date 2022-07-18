@@ -43,6 +43,12 @@
     font-size: 14px;
 }
 
+.feed-txt-mini {
+    font-size: 12px;
+    color: #999999;
+    cursor: pointer;
+}
+
 .feed-like {
     padding: 0 10px;
 }

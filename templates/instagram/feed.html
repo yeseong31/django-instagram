@@ -38,6 +38,9 @@
           <p class="feed-txt"><b> {{ feed.author }} </b> {{ feed.content }}</p>
         </div>
         <div class="feed-reply">
+          {% if feed.comment_set.all.count > 2 %}
+            <p class="feed-txt-mini"><b>댓글 더 보기...</b></p>
+          {% endif %}
           {% for comment in feed.comment_set.all %}
             <a id="comment_{{ comment.pk }}"></a>
             <span class="feed-txt"><b> {{ comment.author.nickname }} </b> {{ comment.content }}
