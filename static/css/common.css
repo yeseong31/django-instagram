@@ -48,7 +48,7 @@
     border: 1px solid rgba(0, 0, 0, 0.18);
 }
 
-.signup-sub-box a {
+.signup-sub-box a, .chpw-text {
     font-weight: bold;
     color: cornflowerblue;
     text-decoration: none;
@@ -67,11 +67,34 @@
     height: 36px;
     font-size: 15px;
     border: 1px solid #dbdbdb;
-    border-radius: 3px;
+    border-radius: 6px;
     padding: 9px 0 7px 8px;
     background-color: #FAFAFA;
 }
 
 .my-form-input:focus {
     outline: 1px solid rgb(38, 38, 38);
+}
+
+.chpw-header {
+    width: 100px;
+}
+
+.chpw-header img {
+    border-radius: 100%;
+}
+
+.chpw-body {
+    padding: 0 20px 20px 30px;
+}
+
+.chpw-form-input {
+    width: 100%;
+    max-width: 578px;
+    height: 36px;
+    font-size: 15px;
+    border: 1px solid #dbdbdb;
+    border-radius: 6px;
+    padding: 9px 0 7px 8px;
+    background-color: #FAFAFA;
 }
