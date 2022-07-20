@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import authenticate
-from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from django.contrib.auth.forms import ReadOnlyPasswordHashField, PasswordChangeForm
 from django.core.exceptions import ValidationError
 
 from common.models import CustomUser
@@ -70,3 +70,21 @@ class ProfileImageForm(forms.ModelForm):
         labels = {
             'thumbnail': '프로필 이미지'
         }
+
+
+class CustomPasswordChangeForm(PasswordChangeForm):
+    def __init__(self, *args, **kwargs):
+        super(CustomPasswordChangeForm, self).__init__(*args, **kwargs)
+        self.fields['old_password'].label = '기존 비밀번호'
+        self.fields['old_password'].widget.attrs.update({
+            'class': 'form-control',
+            'autofocus': False,
+        })
+        self.fields['new_password1'].label = '새 비밀번호'
+        self.fields['new_password1'].widget.attrs.update({
+            'class': 'form-control',
+        })
+        self.fields['new_password2'].label = '새 비밀번호 확인'
+        self.fields['new_password2'].widget.attrs.update({
+            'class': 'form-control',
+        })

@@ -1,4 +1,5 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, update_session_auth_hash
+from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
 from django.shortcuts import render, redirect
@@ -9,7 +10,7 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_200_OK, HTTP_401_UNAUTHORIZED
 from rest_framework.views import APIView
 
-from common.forms import UserCreationForm, UserSigninForm
+from common.forms import UserCreationForm, UserSigninForm, CustomPasswordChangeForm
 from common.messages import message
 from common.models import CustomUser
 from common.tokens import account_activation_token
@@ -96,3 +97,21 @@ class UserActivateView(APIView):
 
         context = {'message': '잘못된 접근입니다.', 'url': '/accounts/signin/'}
         return render(request, 'message.html', context, status=HTTP_401_UNAUTHORIZED)
+
+
+@login_required(login_url='common:signin')
+def change_password(request):
+    if request.method == 'POST':
+        password_change_form = CustomPasswordChangeForm(request.user, request.POST)
+        if password_change_form.is_valid():
+            user = password_change_form.save()
+            update_session_auth_hash(request, user)
+            context = {'message': '비밀번호 변경 성공! 다시 로그인 해 주세요.', 'url': '/accounts/logout/'}
+            return render(request, 'message.html', context, status=HTTP_200_OK)
+
+        # 폼이 유효하지 않은 경우
+        context = {'message': '비밀번호 변경 실패', 'url': '/accounts/change/password/'}
+        return render(request, 'message.html', context, status=HTTP_400_BAD_REQUEST)
+    else:
+        form = CustomPasswordChangeForm(request.user)
+    return render(request, 'common/change_password.html', {'form': form})
