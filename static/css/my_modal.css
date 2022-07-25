@@ -44,6 +44,20 @@
     float: left;
 }
 
+.my-modal-image-detail {
+    text-align: center;
+    transition: all .15s ease-in-out;
+    width: 60%;
+    height: 500px;
+    float: left;
+}
+
+.my-modal-detail-profile-img {
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+}
+
 .my-modal-image-content {
     display: flex;
     flex-direction: row;
