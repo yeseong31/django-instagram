@@ -7,5 +7,5 @@
 
 ## 💾 Databases 💾
 
-<img width="960" alt="image" src="https://user-images.githubusercontent.com/66625672/180460722-d93a9d13-5d9d-416f-bb55-4bf1cc36fbc3.png">
+![image](https://user-images.githubusercontent.com/66625672/187153607-f00cda72-f454-414b-9823-e46f47bdb923.png)
 
