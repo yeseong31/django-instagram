@@ -32,12 +32,26 @@ def comment_vote(request, comment_pk):
     """답글 추천"""
 
     comment = get_object_or_404(Comment, pk=comment_pk)
-    if request.user == comment.author:
-        context = {'message': '본인의 답글은 추천할 수 없습니다.',
-                   'url': f'{resolve_url("instagram:home")}#comment_{comment_pk}'}
-        return render(request, 'message.html', context, status=HTTP_200_OK)
+    # if request.user == comment.author:
+    #     context = {'message': '본인의 답글은 추천할 수 없습니다.',
+    #                'url': f'{resolve_url("instagram:home")}#comment_{comment_pk}'}
+    #     return render(request, 'message.html', context, status=HTTP_200_OK)
     if request.user in comment.voter.all():
         comment.voter.remove(request.user)
     else:
         comment.voter.add(request.user)
     return redirect(f'{resolve_url("instagram:home")}#comment_{comment_pk}')
+
+
+@login_required(login_url='common:signin')
+def comment_delete(request, comment_pk):
+    """답글 삭제"""
+
+    comment = get_object_or_404(Comment, pk=comment_pk)
+    if request.user == comment.author:
+        comment.delete()
+        return redirect(f'{resolve_url("instagram:home")}#feed_{comment.feed.pk}')
+    else:
+        context = {'message': '다른 사람의 답글은 삭제할 수 없습니다.',
+                   'url': f'{resolve_url("instagram:home")}#comment_{comment_pk}'}
+        return render(request, 'message.html', context, status=HTTP_200_OK)

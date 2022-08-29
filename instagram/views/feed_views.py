@@ -30,12 +30,24 @@ def feed_vote(request, feed_pk):
     """게시글 추천"""
 
     feed = get_object_or_404(Feed, pk=feed_pk)
-    if request.user == feed.author:
-        context = {'message': '본인의 게시글은 추천할 수 없습니다.',
-                   'url': f'{resolve_url("instagram:home")}#feed_{feed_pk}'}
-        return render(request, 'message.html', context, status=HTTP_200_OK)
+    # if request.user == feed.author:
+    #     context = {'message': '본인의 게시글은 추천할 수 없습니다.',
+    #                'url': f'{resolve_url("instagram:home")}#feed_{feed_pk}'}
+    #     return render(request, 'message.html', context, status=HTTP_200_OK)
     if request.user in feed.voter.all():
         feed.voter.remove(request.user)
     else:
         feed.voter.add(request.user)
+    return redirect(f'{resolve_url("instagram:home")}#feed_{feed_pk}')
+
+
+@login_required(login_url='common:signin')
+def feed_bookmark(request, feed_pk):
+    """게시글 북마크"""
+
+    feed = get_object_or_404(Feed, pk=feed_pk)
+    if request.user in feed.bookmark.all():
+        feed.bookmark.remove(request.user)
+    else:
+        feed.bookmark.add(request.user)
     return redirect(f'{resolve_url("instagram:home")}#feed_{feed_pk}')

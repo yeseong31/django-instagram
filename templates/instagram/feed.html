@@ -41,9 +41,33 @@
                       <span class="material-icons-outlined my-icon-mini my-icon-cursor"
                         style="color:{% if user in comment.voter.all %} red {% else %} black {% endif %}">favorite_border</span></a>
                       </span><br>
+                      <div style="width: 23px; height: 20px; float: left"></div>
+                      <span class="feed-txt-mini">
+                        {% if comment.modify_date %}
+                          {{ comment.modify_date.month }}월 {{ comment.modify_date.day }}일(수정)
+                        {% else %}
+                          {{ comment.create_date.month }}월 {{ comment.create_date.day }}일
+                        {% endif %}
+                      </span>
+                      <span class="feed-txt-mini"><b>좋아요 {{ comment.voter.count }}개</b></span>
+                      {% if request.user == comment.author %}
+                        <div class="dropdown my-feed-modal-dropdown">
+                          <span style="margin-right: -11px">
+                            <a href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                              <span class="feed-txt-mini"><b>…</b></span>
+                            </a>
+                            <ul class="dropdown-menu my-dropdown-menu" aria-labelledby="dropdownMenuLink" style="float: right">
+                              <li><a class="dropdown-item" href="#">수정</a></li>
+                              <li><hr class="dropdown-divider"></li>
+                              <li><a class="dropdown-item delete-comment" href="{% url 'instagram:comment_delete' comment.pk %}">삭제</a></li>
+                            </ul>
+                          </span>
+                        </div>
+                      {% endif %}
+                      <br>
                     {% endfor %}
-                  </div><hr>
-                  <form id="frmcm" action="{% url 'instagram:comment_create' feed.pk %}" method="post">
+                  </div>
+                  <form id="frmcm" action="{% url 'instagram:comment_create' feed.pk %}" method="post" target="blank_ifr">
                     {% csrf_token %}
                     <div class="feed-icon">
                       <div>
@@ -55,7 +79,9 @@
                         <span class="material-icons-outlined my-icon-cursor">send</span>
                       </div>
                       <div>
-                        <span class="material-icons-outlined my-icon-cursor">turned_in_not</span>
+                        <a href="javascript:void(0)" data-uri="{% url 'instagram:feed_bookmark' feed.pk %}" class="bookmark">
+                          <span class="material-icons-outlined my-icon-cursor"
+                                style="color:{% if user in feed.bookmark.all %} #ffc107 {% else %} black {% endif %}">turned_in_not</span></a>
                       </div>
                     </div>
                     <!-- Modal: Comment Box -->
@@ -67,6 +93,7 @@
                       <input type="submit" value="게시" class="register btn btn-light my-comment-upload-btn">
                     </div>
                   </form>
+                  {# <iframe name='blank_ifr' style='display:none;'></iframe> #}
                 </div>
               </div>
             </div>
@@ -95,7 +122,9 @@
             <span class="material-icons-outlined my-icon-cursor">send</span>
           </div>
           <div>
-            <span class="material-icons-outlined my-icon-cursor">turned_in_not</span>
+            <a href="javascript:void(0)" data-uri="{% url 'instagram:feed_bookmark' feed.pk %}" class="bookmark">
+              <span class="material-icons-outlined my-icon-cursor"
+                    style="color:{% if user in feed.bookmark.all %} #ffc107 {% else %} black {% endif %}">turned_in_not</span></a>
           </div>
         </div>
         <div class="feed-like">
@@ -153,6 +182,21 @@
 const recommend_elements = document.getElementsByClassName("recommend");
 Array.from(recommend_elements).forEach(function(element) {
     element.addEventListener('click', function() {
+        alert("좋아요 버튼 클릭");
+        location.href = this.dataset.uri;
+    });
+});
+const bookmark_elements = document.getElementsByClassName("bookmark");
+Array.from(bookmark_elements).forEach(function(element) {
+    element.addEventListener('click', function() {
+        alert("북마크 버튼 클릭");
+        location.href = this.dataset.uri;
+    });
+});
+const delete_comment_elements = document.getElementsByClassName("delete-comment");
+Array.from(delete_comment_elements).forEach(function(element) {
+    element.addEventListener('click', function() {
+        alert("답글을 삭제합니다.");
         location.href = this.dataset.uri;
     });
 });
