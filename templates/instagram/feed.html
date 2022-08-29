@@ -4,11 +4,11 @@
 
 <div class="main-body">
   <div class="left-body">
-    <!-- 전체 피드 -->
+    <!-- Feed List -->
     {% if feed_list %}
       {% for feed in feed_list %}
-      <!-- 모달창 -->
-      <div class="modal fade bd-example-modal-sm" id="profileModalCenter" tabindex="-1"
+      <!-- Modal -->
+      <div class="modal fade bd-example-modal-sm" id="profileModalCenter_{{ feed.pk }}" tabindex="-1"
           role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content" style="width: 1000px">
@@ -31,7 +31,8 @@
                     </div>
                     <span id="input-user-id" class="feed-name-txt"> {{ feed.author.nickname }} </span>
                   </div>
-                  <div style="width: 345px; height: 440px; padding-left: 10px">
+                  <!-- Modal: Comment -->
+                  <div style="width: 345px; height: 400px; padding-left: 10px">
                     {% for comment in feed.comment_set.all %}
                       <img id="input-profile-image" class="my-modal-detail-profile-img"
                            src="{% get_media_prefix %}{{ comment.author.thumbnail }}" alt="writer_profile_img">
@@ -41,13 +42,36 @@
                         style="color:{% if user in comment.voter.all %} red {% else %} black {% endif %}">favorite_border</span></a>
                       </span><br>
                     {% endfor %}
-                  </div>
+                  </div><hr>
+                  <form id="frmcm" action="{% url 'instagram:comment_create' feed.pk %}" method="post">
+                    {% csrf_token %}
+                    <div class="feed-icon">
+                      <div>
+                        <!-- 'recommand' Button -->
+                        <a href="javascript:void(0)" data-uri="{% url 'instagram:feed_vote' feed.pk %}" class="recommend">
+                          <span class="material-icons-outlined my-icon-cursor"
+                              style="color:{% if user in feed.voter.all %} red {% else %} black {% endif %}">favorite_border</span></a>
+                        <span class="material-icons-outlined my-icon-cursor">mode_comment</span>
+                        <span class="material-icons-outlined my-icon-cursor">send</span>
+                      </div>
+                      <div>
+                        <span class="material-icons-outlined my-icon-cursor">turned_in_not</span>
+                      </div>
+                    </div>
+                    <!-- Modal: Comment Box -->
+                    <div class="my-comment-box">
+                      <label for="content"></label>
+                      <input id="content" name="content" type="text"
+                          class="form-control" placeholder="댓글 달기..."
+                          {% if not user.is_authenticated %}disabled{% endif %}>
+                      <input type="submit" value="게시" class="register btn btn-light my-comment-upload-btn">
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" id="button-write-feed" class="btn btn-primary">공유하기</button>
             </div>
           </div>
         </div>
@@ -63,7 +87,7 @@
         <img class="feed-img"  src="{% get_media_prefix %}{{ feed.image }}" alt="image1">
         <div class="feed-icon">
           <div>
-            <!-- '추천' 버튼 -->
+            <!-- 'recommand' Button -->
             <a href="javascript:void(0)" data-uri="{% url 'instagram:feed_vote' feed.pk %}" class="recommend">
               <span class="material-icons-outlined my-icon-cursor"
                 style="color:{% if user in feed.voter.all %} red {% else %} black {% endif %}">favorite_border</span></a>
@@ -84,17 +108,19 @@
         </div>
         <div class="feed-reply">
           {% if feed.comment_set.all.count > 2 %}
-            <p class="feed-txt-mini" data-bs-toggle="modal" data-bs-target="#profileModalCenter">
+            <p class="feed-txt-mini" data-bs-toggle="modal" data-bs-target="#profileModalCenter_{{ feed.pk }}">
                 <b>댓글 더 보기...</b>
             </p>
           {% endif %}
           {% for comment in feed.comment_set.all %}
-            <a id="comment_{{ comment.pk }}"></a>
-            <span class="feed-txt"><b> {{ comment.author.nickname }} </b> {{ comment.content }}
-              <a href="javascript:void(0)" data-uri="{% url 'instagram:comment_vote' comment.pk %}" class="recommend">
-                <span class="material-icons-outlined my-icon-mini my-icon-cursor"
-                  style="color:{% if user in comment.voter.all %} red {% else %} black {% endif %}">favorite_border</span></a>
-            </span>
+            {% if forloop.counter <= 2 %}
+              <a id="comment_{{ comment.pk }}"></a>
+              <span class="feed-txt"><b> {{ comment.author.nickname }} </b> {{ comment.content }}
+                <a href="javascript:void(0)" data-uri="{% url 'instagram:comment_vote' comment.pk %}" class="recommend">
+                  <span class="material-icons-outlined my-icon-mini my-icon-cursor"
+                      style="color:{% if user in comment.voter.all %} red {% else %} black {% endif %}">favorite_border</span></a>
+              </span>
+            {% endif %}
           {% endfor %}
         </div>
         <!-- 답글 -->
