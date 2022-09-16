@@ -9,3 +9,5 @@
 
 ![image](https://user-images.githubusercontent.com/66625672/187153607-f00cda72-f454-414b-9823-e46f47bdb923.png)
 
+## ✏️ Details ✏️
+[프로젝트 상세 내용](https://incongruous-net-2ed.notion.site/Django-Instagram-d609861259334e0a97d20d005d9f2d3a)
