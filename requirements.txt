@@ -1,6 +1,6 @@
 asgiref==3.5.2
 cffi==1.15.1
-cryptography==37.0.4
+cryptography==38.0.3
 dj-database-url==0.5.0
 Django==4.0.8
 django-cors-headers==3.13.0
